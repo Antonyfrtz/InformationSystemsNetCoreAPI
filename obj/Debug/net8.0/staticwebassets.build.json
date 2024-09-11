@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "6YncrTtbXeQ9qcM6OVVRWFUS3FrSD9qqm66zZXn6d5o=",
+  "Source": "InformationSystems.Server",
+  "BasePath": "_content/InformationSystems.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\anton\\source\\repos\\InformationSystems\\informationsystems.client\\informationsystems.client.esproj",
+      "Version": 2,
+      "Source": "informationsystems.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
