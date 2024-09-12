@@ -1,4 +1,5 @@
 ﻿using InformationSystems.Server.Data;
+using InformationSystems.Server.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InformationSystems.Server.Controllers
@@ -14,8 +15,8 @@ namespace InformationSystems.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll() {
-            var stocks = _context.Stocks.ToList();
+        public IActionResult GetAll() {         // mapper
+            var stocks = _context.Stocks.ToList().Select(s => s.ToStockDTO());
             return Ok(stocks);
         }
 
@@ -27,7 +28,7 @@ namespace InformationSystems.Server.Controllers
             {
                 return NotFound();
             }
-            return Ok(stock);
+            return Ok(stock.ToStockDTO());
         }
 
     }
