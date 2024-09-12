@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\InformationSystems.Server.props" />
-</Project>
