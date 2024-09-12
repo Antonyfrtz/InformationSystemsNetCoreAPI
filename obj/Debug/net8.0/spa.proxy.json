@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:5173",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
-"WorkingDirectory": "C:\\Users\\anton\\source\\repos\\InformationSystems\\InformationSystems.Server\\..\\informationsystems.client",
+"WorkingDirectory": "C:\\Users\\antonis\\source\\repos\\InformationSystems\\InformationSystems.Server\\..\\informationsystems.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
