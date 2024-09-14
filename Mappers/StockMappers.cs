@@ -1,4 +1,5 @@
 ﻿using InformationSystems.Server.DTO.Stock;
+using InformationSystems.Server.Models;
 
 namespace InformationSystems.Server.Mappers
 {
@@ -14,8 +15,23 @@ namespace InformationSystems.Server.Mappers
                 Purchase = stock.Purchase,
                 LastDiv = stock.LastDiv,
                 Industry = stock.Industry,
-                MarketCap = stock.MarketCap
+                MarketCap = stock.MarketCap,
+                Comments = stock.Comments.Select(c => c.ToCommentDTO()).ToList()
             };
         }
+
+        public static Stock ToStockFromCreateDTO(this CreateStockRequest createStockRequest)
+        {
+            return new Stock
+            {
+                Symbol = createStockRequest.Symbol,
+                CompanyName = createStockRequest.CompanyName,
+                Purchase = createStockRequest.Purchase,
+                LastDiv = createStockRequest.LastDiv,
+                Industry = createStockRequest.Industry,
+                MarketCap = createStockRequest.MarketCap
+            };
+        }
+
     }
 }

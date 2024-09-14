@@ -1,4 +1,5 @@
-﻿using InformationSystems.Server.Models;
+﻿using InformationSystems.Server.DTO.Comment;
+using InformationSystems.Server.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InformationSystems.Server.DTO.Stock
@@ -13,5 +14,6 @@ namespace InformationSystems.Server.DTO.Stock
         public string Industry { get; set; } = string.Empty;
         public long MarketCap { get; set; } // Market capitalization
         // We don't need to include comments in the DTO to not expose them to client(example)
+        public List<CommentDTO> Comments { get; set; }
     }
 }
