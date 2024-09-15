@@ -1,5 +1,6 @@
 ﻿using InformationSystems.Server.Data;
 using InformationSystems.Server.DTO.Stock;
+using InformationSystems.Server.Filter;
 using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,12 @@ namespace InformationSystems.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() {         // mapper
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query) {         // mapper
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var stocks = await _stockRepo.GetAllAsync();
+            var stocks = await _stockRepo.GetAllAsync(query);
             var stocksDTO = stocks.Select(x => x.ToStockDTO());
             return Ok(stocks);
         }

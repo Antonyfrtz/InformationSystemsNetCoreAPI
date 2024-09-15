@@ -1,5 +1,6 @@
 ﻿using InformationSystems.Server.Data;
 using InformationSystems.Server.DTO.Stock;
+using InformationSystems.Server.Filter;
 using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Models;
 using Microsoft.EntityFrameworkCore;
@@ -33,9 +34,18 @@ namespace InformationSystems.Server.Repository
             return stock;
         }
 
-        public async Task<List<Stock>> GetAllAsync()
+        public async Task<List<Stock>> GetAllAsync(QueryObject query)
         {
-            return await _context.Stocks.Include(x => x.Comments).ToListAsync();
+            var stocks = _context.Stocks.Include(x => x.Comments).AsQueryable();
+            if(!string.IsNullOrWhiteSpace(query.CompanyName))
+            {
+                stocks = stocks.Where(x => x.CompanyName.Contains(query.CompanyName));
+            }
+            if (!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stocks = stocks.Where(x => x.Symbol.Contains(query.Symbol));
+            }
+            return await stocks.ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
