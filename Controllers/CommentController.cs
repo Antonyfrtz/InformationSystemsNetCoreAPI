@@ -18,14 +18,22 @@ namespace InformationSystems.Server.Controllers
         [Route("/api/comment")]
         public async Task<IActionResult> GetAll()
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var comments = await _commentRepo.GetAllAsync();
             var commentsDTO = comments.Select(x => x.ToCommentDTO());
             return Ok(commentsDTO);
         }
         [HttpGet]
-        [Route("/api/comment/{id}")]
+        [Route("/api/comment/{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var comment = await _commentRepo.GetByIdAsync(id);
             if (comment == null)
             {
@@ -34,9 +42,13 @@ namespace InformationSystems.Server.Controllers
             return Ok(comment.ToCommentDTO());
         }
         [HttpPost]
-        [Route("/api/comment/{stockId}")]
+        [Route("/api/comment/{stockId:int}")]
         public async Task<IActionResult> Create([FromRoute] int stockId, CreateComment request) {
-             if(!await _stockRepo.StockExists(stockId))
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!await _stockRepo.StockExists(stockId))
             {
                 return BadRequest("Stock does not exist");
             }
@@ -45,9 +57,13 @@ namespace InformationSystems.Server.Controllers
             return CreatedAtAction(nameof(GetById), new { id = comment.Id }, comment.ToCommentDTO());
         }
         [HttpDelete]
-        [Route("/api/comment/{id}")]
+        [Route("/api/comment/{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var comment = await _commentRepo.DeleteAsync(id);
             if (comment == null)
             {
