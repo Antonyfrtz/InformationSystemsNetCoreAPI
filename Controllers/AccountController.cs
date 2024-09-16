@@ -1,4 +1,5 @@
 ﻿using InformationSystems.Server.DTO.Account;
+using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,9 +12,11 @@ namespace InformationSystems.Server.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(UserManager<AppUser> userManager)
+        private readonly ITokenService _tokenService;
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
         {
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -36,7 +39,14 @@ namespace InformationSystems.Server.Controllers
                     var roleResult = await _userManager.AddToRoleAsync(user, "User");
                     if(roleResult.Succeeded)
                     {
-                        return Ok("Success");
+                        return Ok(
+                            new NewUserDTO
+                            {
+                                Username = user.UserName,
+                                Email = user.Email,
+                                Token = _tokenService.CreateToken(user)
+                            }
+                        );
                     }
                     else
                     {
