@@ -45,6 +45,31 @@ namespace InformationSystems.Server.Repository
             {
                 stocks = stocks.Where(x => x.Symbol.Contains(query.Symbol));
             }
+            if(!string.IsNullOrWhiteSpace(query.SortBy))
+            {
+                if (query.SortBy.Equals("Symbol",StringComparison.OrdinalIgnoreCase))
+                {
+                    if (query.IsDescending)
+                    {
+                        stocks = stocks.OrderByDescending(x => x.CompanyName);
+                    }
+                    else
+                    {
+                        stocks = stocks.OrderBy(x => x.CompanyName);
+                    }
+                }
+                else if (query.SortBy == "Symbol")
+                {
+                    if (query.IsDescending)
+                    {
+                        stocks = stocks.OrderByDescending(x => x.Symbol);
+                    }
+                    else
+                    {
+                        stocks = stocks.OrderBy(x => x.Symbol);
+                    }
+                }
+            }
             return await stocks.ToListAsync();
         }
 
