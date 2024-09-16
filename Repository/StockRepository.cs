@@ -49,28 +49,15 @@ namespace InformationSystems.Server.Repository
             {
                 if (query.SortBy.Equals("Symbol",StringComparison.OrdinalIgnoreCase))
                 {
-                    if (query.IsDescending)
-                    {
-                        stocks = stocks.OrderByDescending(x => x.CompanyName);
-                    }
-                    else
-                    {
-                        stocks = stocks.OrderBy(x => x.CompanyName);
-                    }
+                    stocks = query.IsDescending ? stocks.OrderByDescending(x => x.CompanyName) : (IQueryable<Stock>)stocks.OrderBy(x => x.CompanyName);
                 }
                 else if (query.SortBy == "Symbol")
                 {
-                    if (query.IsDescending)
-                    {
-                        stocks = stocks.OrderByDescending(x => x.Symbol);
-                    }
-                    else
-                    {
-                        stocks = stocks.OrderBy(x => x.Symbol);
-                    }
+                    stocks = query.IsDescending ? stocks.OrderByDescending(x => x.Symbol) : (IQueryable<Stock>)stocks.OrderBy(x => x.Symbol);
                 }
             }
-            return await stocks.ToListAsync();
+            var skipNumber = (query.PageNo - 1) * query.PageSize;
+            return await stocks.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
         public async Task<Stock?> GetByIdAsync(int id)
