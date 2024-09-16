@@ -1,4 +1,5 @@
 ﻿using InformationSystems.Server.Data;
+using InformationSystems.Server.DTO.Comment;
 using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Models;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,19 @@ namespace InformationSystems.Server.Repository
         public async Task<Comment?> GetByIdAsync(int id)
         {
             return await _context.Comments.FindAsync(id);
+        }
+
+        public async Task<Comment?> UpdateAsync(int id, Comment request)
+        {
+            var existingComment = await _context.Comments.FindAsync(id);
+            if (existingComment == null)
+            {
+                return null;
+            }
+            existingComment.Title = request.Title;
+            existingComment.Content = request.Content;
+            await _context.SaveChangesAsync();
+            return existingComment;
         }
     }
 }

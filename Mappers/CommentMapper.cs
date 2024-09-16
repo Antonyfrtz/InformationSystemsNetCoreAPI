@@ -25,5 +25,14 @@ namespace InformationSystems.Server.Mappers
                 StockId = stockId
             };
         }
+
+        public static Comment ToCommentFromUpdate(this UpdateComment commentDto)
+        {
+            return new Comment
+            {
+                Title = commentDto.Title,
+                Content = commentDto.Content,
+            };
+        }
     }
 }

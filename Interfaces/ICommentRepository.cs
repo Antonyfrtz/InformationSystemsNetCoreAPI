@@ -1,4 +1,5 @@
-﻿using InformationSystems.Server.Models;
+﻿using InformationSystems.Server.DTO.Comment;
+using InformationSystems.Server.Models;
 
 namespace InformationSystems.Server.Interfaces
 {
@@ -7,6 +8,7 @@ namespace InformationSystems.Server.Interfaces
         Task<List<Comment>> GetAllAsync();
         Task<Comment?> GetByIdAsync(int id);
         Task<Comment> CreateAsync(Comment comment);
+        Task<Comment?> UpdateAsync(int id, Comment comment);
         Task<Comment> DeleteAsync(int id);
     }
 }
