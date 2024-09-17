@@ -1,5 +1,6 @@
 ﻿using InformationSystems.Server.Data;
 using InformationSystems.Server.DTO.Comment;
+using InformationSystems.Server.Helper;
 using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Models;
 using Microsoft.EntityFrameworkCore;
@@ -33,9 +34,15 @@ namespace InformationSystems.Server.Repository
             return comment;
         }
 
-        public async Task<List<Comment>> GetAllAsync()
+        public async Task<List<Comment>> GetAllAsync(CommentQueryObject query)
         {
-            return await _context.Comments.Include(c => c.AppUser).ToListAsync();
+            var comments = _context.Comments.Include(c => c.AppUser).AsQueryable();
+            if(!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                comments = comments.Where(c => c.Stock.Symbol == query.Symbol);
+            }
+            comments = query.isDescending == true ? comments.OrderByDescending(c => c.CreatedOn) : comments.OrderBy(c => c.CreatedOn);
+            return await comments.ToListAsync();
         }
 
         public async Task<Comment?> GetByIdAsync(int id)

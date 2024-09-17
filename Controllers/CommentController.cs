@@ -1,4 +1,5 @@
 ﻿using InformationSystems.Server.DTO.Comment;
+using InformationSystems.Server.Helper;
 using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Mappers;
 using InformationSystems.Server.Models;
@@ -25,13 +26,14 @@ namespace InformationSystems.Server.Controllers
         }
         [HttpGet]
         [Route("/api/comment")]
-        public async Task<IActionResult> GetAll()
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetAll([FromQuery]CommentQueryObject query)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var comments = await _commentRepo.GetAllAsync();
+            var comments = await _commentRepo.GetAllAsync(query);
             var commentsDTO = comments.Select(x => x.ToCommentDTO());
             return Ok(commentsDTO);
         }
