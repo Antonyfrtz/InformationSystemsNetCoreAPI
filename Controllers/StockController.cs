@@ -3,6 +3,8 @@ using InformationSystems.Server.DTO.Stock;
 using InformationSystems.Server.Filter;
 using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Mappers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +23,11 @@ namespace InformationSystems.Server.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query) {         // mapper
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("Model state is not valid");
                 return BadRequest(ModelState);
             }
             var stocks = await _stockRepo.GetAllAsync(query);
