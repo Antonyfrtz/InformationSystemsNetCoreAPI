@@ -4,6 +4,6 @@ namespace InformationSystems.Server.Models
 {
     public class AppUser:IdentityUser
     {
-        // Default properties of IdentityUser
+        public List<Portfolio> Portfolios { get; set; } = new List<Portfolio>();
     }
 }

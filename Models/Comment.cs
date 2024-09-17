@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace InformationSystems.Server.Models
 {
+    [Table("Comments")]
     public class Comment
     {
         public int Id { get; set; }

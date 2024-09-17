@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InformationSystems.Server.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240916155244_SeedRole")]
-    partial class SeedRole
+    [Migration("20240917095830_PortfolioManyToMany")]
+    partial class PortfolioManyToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,21 @@ namespace InformationSystems.Server.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("InformationSystems.Server.Models.Portfolio", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUserId", "StockId");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("Portfolios");
+                });
+
             modelBuilder.Entity("InformationSystems.Server.Models.Stock", b =>
                 {
                     b.Property<int>("Id")
@@ -182,13 +197,13 @@ namespace InformationSystems.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89abe9f3-34c4-427e-acb7-8b0585935b22",
+                            Id = "5544fd2a-2513-418d-92b1-6e663010944f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9c21b679-a7bc-4885-a896-222092c7b041",
+                            Id = "8514f46b-5451-4bbf-93d0-77b15bf64d7e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -309,6 +324,25 @@ namespace InformationSystems.Server.Migrations
                     b.Navigation("Stock");
                 });
 
+            modelBuilder.Entity("InformationSystems.Server.Models.Portfolio", b =>
+                {
+                    b.HasOne("InformationSystems.Server.Models.AppUser", "User")
+                        .WithMany("Portfolios")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InformationSystems.Server.Models.Stock", "Stock")
+                        .WithMany("Portfolios")
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stock");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -360,9 +394,16 @@ namespace InformationSystems.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("InformationSystems.Server.Models.AppUser", b =>
+                {
+                    b.Navigation("Portfolios");
+                });
+
             modelBuilder.Entity("InformationSystems.Server.Models.Stock", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Portfolios");
                 });
 #pragma warning restore 612, 618
         }
