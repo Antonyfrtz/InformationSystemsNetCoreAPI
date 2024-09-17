@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="DTO\Comment\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
