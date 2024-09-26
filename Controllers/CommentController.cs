@@ -55,7 +55,7 @@ namespace InformationSystems.Server.Controllers
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Route("/api/comment/{symbol:alpha}")]
-        public async Task<IActionResult> Create([FromRoute] string symbol, CreateComment commentDto)
+        public async Task<IActionResult> Create([FromRoute] string symbol, [FromBody] CreateComment commentDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

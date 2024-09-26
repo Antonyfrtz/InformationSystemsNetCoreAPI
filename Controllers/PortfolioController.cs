@@ -35,7 +35,7 @@ namespace InformationSystems.Server.Controllers
         }
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> AddPortfolio(string symbol)
+        public async Task<IActionResult> AddPortfolio([FromHeader]string symbol)
         {
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
