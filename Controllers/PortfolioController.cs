@@ -35,7 +35,7 @@ namespace InformationSystems.Server.Controllers
         }
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> AddPortfolio([FromHeader]string symbol)
+        public async Task<IActionResult> AddPortfolio(string symbol)
         {
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
@@ -45,7 +45,7 @@ namespace InformationSystems.Server.Controllers
                 stock = await _fmpService.FindStockBySymbolAsync(symbol);
                 if (stock == null)
                 {
-                    return BadRequest("Stock does not exists");
+                    return BadRequest("Stock does not exist");
                 }
                 else
                 {
