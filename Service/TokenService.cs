@@ -1,6 +1,7 @@
 ﻿using InformationSystems.Server.Interfaces;
 using InformationSystems.Server.Models;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -23,6 +24,7 @@ namespace InformationSystems.Server.Service
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
             };
+            //claims.Add(new Claim(ClaimTypes.Role, "Admin"));
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {

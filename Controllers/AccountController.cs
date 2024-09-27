@@ -39,15 +39,17 @@ namespace InformationSystems.Server.Controllers
                 var createdUser = await _userManager.CreateAsync(user, model.Password);
                 if (createdUser.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(user, "User");
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
                     if(roleResult.Succeeded)
                     {
+                        var roles = await _userManager.GetRolesAsync(user);
                         return Ok(
                             new NewUserDTO
                             {
                                 Username = user.UserName,
                                 Email = user.Email,
-                                Token = _tokenService.CreateToken(user)
+                                Token = _tokenService.CreateToken(user),
+                                Roles = roles
                             }
                         );
                     }
@@ -77,12 +79,14 @@ namespace InformationSystems.Server.Controllers
                 var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
                 if (result.Succeeded)
                 {
+                    var roles = await _userManager.GetRolesAsync(user);
                     return Ok(
                         new NewUserDTO
                         {
                             Username = user.UserName,
                             Email = user.Email,
-                            Token = _tokenService.CreateToken(user)
+                            Token = _tokenService.CreateToken(user),
+                            Roles = roles
                         }
                     );
                 }

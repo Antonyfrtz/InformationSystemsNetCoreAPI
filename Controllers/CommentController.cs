@@ -98,6 +98,7 @@ namespace InformationSystems.Server.Controllers
             }
             return Ok(comment.ToCommentDTO());
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
         [HttpDelete]
         [Route("/api/comment/{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
